@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FirstFragment">
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.farms.lakesyde.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.farms.lakesyde.ui.slideshow.SlideshowFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.farms.lakesyde.MainFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_FirstFragment_to_PestFragment"
+            app:destination="@id/PestFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_FirstFragment_to_OthersFragment"
+            app:destination="@id/OthersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_FirstFragment_to_PlantingFragment"
+            app:destination="@id/PlantingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_FirstFragment_to_SprayingFragment"
+            app:destination="@id/SprayingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_FirstFragment_to_FertilizerFragment"
+            app:destination="@id/FertilizerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/FertilizerFragment"
+        android:name="com.farms.lakesyde.FertilizerFragment"
+        android:label="FertilizerFragment"
+        tools:layout="@layout/fragment_fertilizer_app">
+
+        <action
+            android:id="@+id/action_FertilizerFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SprayingFragment"
+        android:name="com.farms.lakesyde.SprayingFragment"
+        android:label="@string/chemical_application_spraying"
+        tools:layout="@layout/fragment_spraying">
+
+        <action
+            android:id="@+id/action_SprayingFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PlantingFragment"
+        android:name="com.farms.lakesyde.PlantingFragment"
+        android:label="@string/planting"
+        tools:layout="@layout/fragment_planting">
+        <action
+            android:id="@+id/action_PlantingFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PestFragment"
+        android:name="com.farms.lakesyde.PestFragment"
+        android:label="@string/pest_identification"
+        tools:layout="@layout/fragment_pest">
+        <action
+            android:id="@+id/action_PestFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/OthersFragment"
+        android:name="com.farms.lakesyde.OthersFragment"
+        android:label="@string/others"
+        tools:layout="@layout/fragment_others">
+        <action
+            android:id="@+id/action_OthersFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/ProfileFragment"
+        android:name="com.farms.lakesyde.ProfileFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_ProfileFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+</navigation>

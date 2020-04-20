@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">LakeSyde Farms</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">LakeSyde Farms</string>
+    <string name="nav_header_subtitle">Your Health is Our Concern</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Exit</string>
+
+    <string name="menu_home">Dashboard</string>
+    <string name="menu_gallery">Profile</string>
+    <string name="menu_slideshow">About Us</string>
+
+    <string name="home_second">Home Second</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">LAKESYDE FARMS</string>
+    <string name="slide_1_desc">A Decade in Agriculture</string>
+
+    <string name="slide_2_title">WE ARE GREEN</string>
+    <string name="slide_2_desc">Organic Oriented</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Spend Less For Fresh</string>
+
+    <string name="slide_4_title">Climate Smart Innovation</string>
+    <string name="slide_4_desc">Strict Hygienic Standards</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="about_us">Established in 2010, Lakesyde Farms is an all year round crop farm that grows chilis mainly and a variety of crops for both export and local market. Its major focus has been the supply of healthy quality vegetables/crops, with less/minimal or no use of recommended chemicals to the local and export markets. The purpose of the operation of the farm is to provide clients/consumers with quality hygienic foods that are affordable and exceeds their expectations. Lakesyde Farms is located in Agordome Volta Region, Ghana, next to the White Volta at latitude 5o 95N, longitude 0o 63E. We also undertake research and deelopment in all agricultural fields from operational to marketing research with close collabration with higher educational institutions and NGO\'s in Ghana and across the globe. Final we undertake irrigation design, installation and sale.</string>
+    <string name="registration">Registration</string>
+    <string name="login">Sign In</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_daily_inputs">Daily Input Records</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fertilizer_application">Fertilizer Application</string>
+    <string name="chemical_application_spraying">Chemical Application</string>
+    <string name="planting">Planting</string>
+    <string name="pest_identification">Pest Identification</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="others">Others</string>
+</resources>
