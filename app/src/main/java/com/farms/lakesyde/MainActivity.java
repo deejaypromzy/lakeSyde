@@ -1,6 +1,5 @@
 package com.farms.lakesyde;
 
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,16 +21,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -43,15 +45,15 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
-
+public class MainActivity extends AppCompatActivity implements LocationListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final int PERMISSION_CALLBACK_CONSTANT = 100;
     private static final int REQUEST_PERMISSION_SETTING = 101;
     public NavController navController;
-    public DrawerLayout drawer;
+    public BottomNavigationView bottomNavigationView;
+    LinearLayout farm_bg;
     protected LocationManager locationManager;
     FusedLocationProviderClient mFusedLocationClient;
     private String currentLocation;
@@ -76,14 +78,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        return NavigationUI.navigateUp(drawer, Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment));
 //    }
     private Boolean exit = false;
+    private PrefManager prefManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setDarkMode(getWindow());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        toolbar.setFadingEdgeLength(0);
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_overflow_icon));
         setSupportActionBar(toolbar);
-        initCollapsingToolbar();
 
 
         permissionStatus = getSharedPreferences("permissionStatus", MODE_PRIVATE);
@@ -103,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getLastLocation();
         }
 
-
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,121 +117,129 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, DailyInputs.class));
             }
         });
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(
-//                        ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                                || ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                )
-//                {
-//                    if(
-//                            ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
-//                            || ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)){
-//                        //Show Information about why you need the permission
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                        builder.setIcon(R.mipmap.ic_launcher_round);
-//                        builder.setTitle("LakeSyde Farms Needs Permission");
-//                        builder.setMessage("LakeSyde Farms needs Location permissions.");
-//                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                                ActivityCompat.requestPermissions(MainActivity.this,permissionsRequired,PERMISSION_CALLBACK_CONSTANT);
-//                            }
-//                        });
-//                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//                        builder.show();
-//                    } else if (permissionStatus.getBoolean(permissionsRequired[0],false) || permissionStatus.getBoolean(permissionsRequired[1],false)) {
-//                        //Previously Permission Request was cancelled with 'Dont Ask Again',
-//                        // Redirect to Settings after showing Information about why you need the permission
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                        builder.setIcon(R.mipmap.ic_launcher_round);
-//                        builder.setTitle("LakeSyde Farms Needs Permission");
-//                        builder.setMessage("LakeSyde Farms needs Location permissions.");
-//                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                                sentToSettings = true;
-//                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-//                                intent.setData(uri);
-//                                startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
-//                                Toast.makeText(getBaseContext(), "Go to Permissions to Grant Location", Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//                        builder.show();
-//                    }  else {
-//                        //just request the permission
-//                        ActivityCompat.requestPermissions(MainActivity.this,permissionsRequired,PERMISSION_CALLBACK_CONSTANT);
-//                    }
-//
-//                    //txtPermissions.setText("Permission Required");
-//
-//                    SharedPreferences.Editor editor = permissionStatus.edit();
-//                    editor.putBoolean(permissionsRequired[0],true);
-//                    editor.putBoolean(permissionsRequired[1],true);
-//                    editor.apply();
-//                }
-//                else {
-//                    //You already have the permission, just go ahead.
-//                    //restart this activity
-////                    overridePendingTransition(0, 0);
-////                    finish();
-////                    overridePendingTransition(0, 0);
-////                    startActivity(getIntent());
-// permissionStatus = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        double Long= Double.parseDouble(permissionStatus.getString("longg",  "0.00000"));
-//        double lat= Double.parseDouble(permissionStatus.getString("latt",  "0.00000"));
-//        Toast.makeText(MainActivity.this, "Latitude "+lat + ", Longitude:" + Long, Toast.LENGTH_SHORT).show();
-//
-//        Intent intent = new Intent(MainActivity.this,MapsActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putDouble("lat",lat);
-//        bundle.putDouble("long",Long);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
-//                    // proceedAfterPermission();
-//                }
-//
-//
-//                }
-//        });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (
+                        ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                                || ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    if (
+                            ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                                    || ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                        //Show Information about why you need the permission
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setIcon(R.mipmap.ic_launcher_round);
+                        builder.setTitle("LakeSyde Farms Needs Permission");
+                        builder.setMessage("LakeSyde Farms needs Location permissions.");
+                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                ActivityCompat.requestPermissions(MainActivity.this, permissionsRequired, PERMISSION_CALLBACK_CONSTANT);
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    } else if (permissionStatus.getBoolean(permissionsRequired[0], false) || permissionStatus.getBoolean(permissionsRequired[1], false)) {
+                        //Previously Permission Request was cancelled with 'Dont Ask Again',
+                        // Redirect to Settings after showing Information about why you need the permission
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setIcon(R.mipmap.ic_launcher_round);
+                        builder.setTitle("LakeSyde Farms Needs Permission");
+                        builder.setMessage("LakeSyde Farms needs Location permissions.");
+                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                sentToSettings = true;
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
+                                Toast.makeText(getBaseContext(), "Go to Permissions to Grant Location", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    } else {
+                        //just request the permission
+                        ActivityCompat.requestPermissions(MainActivity.this, permissionsRequired, PERMISSION_CALLBACK_CONSTANT);
+                    }
+
+                    //txtPermissions.setText("Permission Required");
+
+                    SharedPreferences.Editor editor = permissionStatus.edit();
+                    editor.putBoolean(permissionsRequired[0], true);
+                    editor.putBoolean(permissionsRequired[1], true);
+                    editor.apply();
+                } else {
+                    //You already have the permission, just go ahead.
+                    //restart this activity
+//                    overridePendingTransition(0, 0);
+//                    finish();
+//                    overridePendingTransition(0, 0);
+//                    startActivity(getIntent());
+                    permissionStatus = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    double Long = Double.parseDouble(permissionStatus.getString("longg", "0.00000"));
+                    double lat = Double.parseDouble(permissionStatus.getString("latt", "0.00000"));
+                    Toast.makeText(MainActivity.this, "Latitude " + lat + ", Longitude:" + Long, Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("lat", lat);
+                    bundle.putDouble("long", Long);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    // proceedAfterPermission();
+                }
+
+
+            }
+        });
         //setFragment(new MainFragment());
 
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+//        drawer = findViewById(R.id.drawer_layout);
+        prefManager = new PrefManager(this);
+
+
+        farm_bg = findViewById(R.id.farm_bg);
+
+        bottomNavigationView = findViewById(R.id.navigation);
+        // bottomNavigationView.getMenu().getItem(1).setChecked(true);
+        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+
+
+        // NavigationView navigationView = findViewById(R.id.nav_view);
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        NavigationUI.setupActionBarWithNavController(this, navController, drawer);
+        //   NavigationUI.setupActionBarWithNavController(this, navController, bottomNavigationView);
 
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.nav_home);
+        // navigationView.setNavigationItemSelectedListener(this);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
 //
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
 
 //        try {
@@ -237,33 +251,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
     }
 
-    private void initCollapsingToolbar() {
-        final Toolbar collapsingToolbar =
-                (Toolbar) findViewById(R.id.toolbar);
-        collapsingToolbar.setTitle("LakeSyde Farms");
-        // AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        // appBarLayout.setExpanded(true);
-
-//        // hiding & showing the title when toolbar expanded & collapsed
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            boolean isShow = false;
-//            int scrollRange = -1;
-//
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (scrollRange == -1) {
-//                    scrollRange = appBarLayout.getTotalScrollRange();
-//                }
-//                if (scrollRange + verticalOffset == 0) {
-//                    collapsingToolbar.setTitle(getString(R.string.app_name));
-//                    isShow = true;
-//                } else if (isShow) {
-//                    collapsingToolbar.setTitle("");
-//                    isShow = false;
-//                }
-//            }
-//        });
+    private void setDarkMode(Window window) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        changeStatusBar(1, window);
     }
+
+    public void changeStatusBar(int mode, Window window) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.contentBodyColor));
+            //white mode
+            if (mode == 1) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+    }
+
+
+//    private void initCollapsingToolbar() {
+//        final Toolbar collapsingToolbar =
+//                (Toolbar) findViewById(R.id.toolbar);
+//        collapsingToolbar.setTitle("LakeSyde Farms");
+//        // AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+//        // appBarLayout.setExpanded(true);
+//
+////        // hiding & showing the title when toolbar expanded & collapsed
+////        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+////            boolean isShow = false;
+////            int scrollRange = -1;
+////
+////            @Override
+////            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+////                if (scrollRange == -1) {
+////                    scrollRange = appBarLayout.getTotalScrollRange();
+////                }
+////                if (scrollRange + verticalOffset == 0) {
+////                    collapsingToolbar.setTitle(getString(R.string.app_name));
+////                    isShow = true;
+////                } else if (isShow) {
+////                    collapsingToolbar.setTitle("");
+////                    isShow = false;
+////                }
+////            }
+////        });
+//    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -310,6 +342,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alertDialog.show();
             return true;
         }
+        if (item.getItemId() == R.id.logout) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+            alertDialog.setTitle("LakeSyde Farms");
+            alertDialog.setIcon(R.mipmap.ic_launcher_round);
+            // Setting Dialog Message
+            alertDialog.setMessage("Do you really want to Logout? You will have to authenticate on next launch");
+
+
+            // Setting Positive "Yes" Button
+            alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    //   prefManager.setRegistered(false);
+                    prefManager.setRegistered(true);
+                    prefManager.setVerified(true);
+
+                    // Write your code here to invoke YES event
+                    finish();
+                }
+            });
+
+
+            // Setting Negative "NO" Button
+            alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Write your code here to invoke NO event
+                    dialog.cancel();
+                }
+            });
+
+            // Showing Alert Message
+            alertDialog.show();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
 
@@ -317,27 +382,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        menuItem.setChecked(true);
 
-        drawer.closeDrawers();
-
+        //  menuItem.setChecked(true);
         int id = menuItem.getItemId();
 
         switch (id) {
-
             case R.id.nav_home:
                 navController.navigate(R.id.FirstFragment);
                 fab.setVisibility(View.VISIBLE);
+                farm_bg.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.nav_profile:
                 navController.navigate(R.id.profileFragment);
                 fab.setVisibility(View.GONE);
+                farm_bg.setVisibility(View.GONE);
                 break;
 
             case R.id.nav_info:
                 navController.navigate(R.id.aboutFragment);
-                fab.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+                farm_bg.setVisibility(View.VISIBLE);
                 break;
 
         }
@@ -620,28 +685,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-            {
-                if (exit) {
-                    finish(); // finish activity
-                } else {
-//                    Toast.makeText(this, "Press Back again to Exit.",
-//                            Toast.LENGTH_SHORT).show();
-                    exit = true;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            exit = false;
-                        }
-                    }, 3000);
-
-                }
-            }
-        } else if (!drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.openDrawer(GravityCompat.START);
-            {
                 if (exit) {
                     finish(); // finish activity
                 } else {
@@ -656,8 +699,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }, 3000);
 
                 }
-            }
-        }
     }
 
 }

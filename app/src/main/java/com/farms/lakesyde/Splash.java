@@ -50,6 +50,12 @@ public class Splash extends AppCompatActivity {
         animation = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
         findViewById(R.id.mylogo).startAnimation(animation);
 
+        animation = AnimationUtils.loadAnimation(this, R.anim.simple_grow);
+        findViewById(R.id.mylogo1).startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+        findViewById(R.id.mylogo2).startAnimation(animation);
+
         animation = AnimationUtils.loadAnimation(this, R.anim.base_slide_right_in);
         findViewById(R.id.tv1).startAnimation(animation);
 

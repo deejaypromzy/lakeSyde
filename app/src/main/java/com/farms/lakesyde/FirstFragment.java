@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class FirstFragment extends Fragment {
 
@@ -22,7 +26,10 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+        bottomNavigationView.startAnimation(animation);
+        bottomNavigationView.setVisibility(View.VISIBLE);
         view.findViewById(R.id.others).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

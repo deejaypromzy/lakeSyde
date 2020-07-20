@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
         tvPhone = view.findViewById(R.id.tvPhone);
         tvEmail = view.findViewById(R.id.tvEmail);
         tvLocation = view.findViewById(R.id.tvLocation);
-        tvSize = view.findViewById(R.id.size);
+        tvSize = view.findViewById(R.id.tvSize);
         tvCrops = view.findViewById(R.id.tvCrops);
         tvName = view.findViewById(R.id.tvName);
 

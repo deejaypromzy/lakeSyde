@@ -21,24 +21,24 @@ class DropBack {
 
     // Obtain a number between [0 - 49].
 
-    static int getRandomChildDrawable() {
-        switch (0) {
-            default:
-            case 0:
-                return R.drawable.header_bg;
-            case 1:
-                return R.drawable.bg6;
-            case 2:
-                return R.drawable.bg2;
-            case 3:
-                return R.drawable.bg3;
-            case 4:
-                return R.drawable.bg4;
-            case 5:
-                return R.drawable.bg5;
-
-        }
-    }
+//    static int getRandomChildDrawable() {
+//        switch (0) {
+//            default:
+//            case 0:
+//                return R.drawable.header_bg;
+//            case 1:
+//                return R.drawable.bg6;
+//            case 2:
+//                return R.drawable.bg2;
+//            case 3:
+//                return R.drawable.bg3;
+//            case 4:
+//                return R.drawable.bg4;
+//            case 5:
+//                return R.drawable.bg5;
+//
+//        }
+//    }
 }
 
 

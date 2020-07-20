@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="24dp"
     tools:context=".SprayingFragment">
 
     <ScrollView
@@ -19,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/fab_margin"
             app:cardCornerRadius="12dp"
             app:cardElevation="5dp"
             app:cardPreventCornerOverlap="true"
@@ -32,11 +34,6 @@
                 android:orientation="vertical"
                 android:padding="@dimen/fab_margin">
 
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/spray" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -45,7 +42,7 @@
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_horizontal"
                     android:text="@string/chemical_application_spraying"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -56,8 +53,6 @@
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
                         android:hint="Name Of Chemical"
                         android:inputType="textPersonName|textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -70,25 +65,8 @@
                         android:id="@+id/amt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
                         android:hint="Amount / Rate Used"
                         android:inputType="phone"
-                        android:textColor="#2d3436" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
-                        android:hint="Time of use"
-                        android:inputType="time"
                         android:textColor="#2d3436" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,25 +78,54 @@
                         android:id="@+id/reason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
                         android:hint="Reason for Application"
                         android:inputType="textAutoComplete"
                         android:textColor="#2d3436" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:ellipsize="start"
+                        android:focusable="false"
+                        android:hint="Date"
+                        android:inputType="date"
+                        android:textColor="#2d3436" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:ellipsize="start"
+                        android:focusable="false"
+                        android:hint="Time"
+                        android:inputType="time"
+                        android:textColor="#2d3436" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fab_margin"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
+                        android:layout_marginEnd="@dimen/fab_margin"
                         android:layout_weight="1"
                         android:background="@drawable/shape_cancel"
                         android:text="Cancel"
@@ -128,8 +135,7 @@
                         android:id="@+id/submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
+                        android:layout_marginStart="@dimen/fab_margin"
                         android:layout_weight="1"
                         android:background="@drawable/shape_login"
                         android:text="Submit"

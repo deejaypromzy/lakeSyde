@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".OthersFragment">
 
     <ScrollView
@@ -28,14 +28,10 @@
                 android:id="@+id/parentLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/fab_margin">
-
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/other" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -44,8 +40,8 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_horizontal"
-                    android:text="@string/app_name"
-                    android:textSize="20sp" />
+                    android:text="@string/others"
+                    android:textSize="18sp" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -56,8 +52,6 @@
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
                         android:hint="Name Of Activity"
                         android:inputType="textPersonName|textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -65,14 +59,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_weight="5"
                     android:text="Image of Activity" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:gravity="bottom">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -90,8 +82,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
                         android:drawableEnd="@drawable/add_image"
+                        android:focusable="false"
                         android:hint="Take photo"
-                        android:padding="5dp"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -112,29 +104,59 @@
                         android:id="@+id/desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
                         android:gravity="start|top"
                         android:hint="Description"
                         android:inputType="textMultiLine"
-                        android:lines="8"
-                        android:maxLines="10"
-                        android:minLines="4" />
+                        android:lines="5"
+                        android:maxLines="5"
+                        android:minLines="2" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:ellipsize="start"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:hint="Date"
+                        android:inputType="date"
+                        android:textColor="#2d3436" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:ellipsize="start"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:hint="Time"
+                        android:inputType="time"
+                        android:textColor="#2d3436" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fab_margin"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
+                        android:layout_marginEnd="@dimen/fab_margin"
                         android:layout_weight="1"
                         android:background="@drawable/shape_cancel"
                         android:text="Cancel"
@@ -144,8 +166,7 @@
                         android:id="@+id/submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
+                        android:layout_marginStart="@dimen/fab_margin"
                         android:layout_weight="1"
                         android:background="@drawable/shape_login"
                         android:text="Submit"

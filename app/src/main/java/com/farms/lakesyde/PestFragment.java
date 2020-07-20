@@ -1,6 +1,8 @@
 package com.farms.lakesyde;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,8 +17,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -33,9 +40,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class PestFragment extends Fragment {
 
@@ -44,7 +54,7 @@ public class PestFragment extends Fragment {
     BufferedReader bufferedReader;
     Bitmap pFixBitmap, dFixBitmap;
     StringBuilder stringBuilder;
-    TextInputEditText user_name, amt, time;
+    TextInputEditText user_name, amt, time, date;
     Button submit;
     boolean check = true;
     private ByteArrayOutputStream pByteArrayOutputStream, dByteArrayOutputStream;
@@ -55,6 +65,7 @@ public class PestFragment extends Fragment {
     private String pestConvertImage, diseaseConvertImage = "";
     private byte[] pByteArray, dByteArray;
     private String user = "";
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
 
     public PestFragment() {
@@ -102,6 +113,10 @@ public class PestFragment extends Fragment {
             }
         }
 
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+        bottomNavigationView.startAnimation(animation);
+        bottomNavigationView.setVisibility(View.GONE);
 
         prefManager = new PrefManager(getActivity());
 
@@ -109,7 +124,8 @@ public class PestFragment extends Fragment {
         amt = view.findViewById(R.id.amt);
         time = view.findViewById(R.id.time);
         submit = view.findViewById(R.id.submit);
-
+        date = view.findViewById(R.id.date);
+        createOnClickListeners();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +169,72 @@ public class PestFragment extends Fragment {
         });
     }
 
+    /**
+     * Sets on click listeners for widgets in the inflated layout
+     */
+    private void createOnClickListeners() {
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getActivity(),
+                        R.style.datepicker,
+                        dateSetListener,
+                        year, month, day);
+                dialog.show();
+            }
+        });
+
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: date: " + year + "/" + month + "/" + dayOfMonth);
+
+                if (dayOfMonth >= 1 && dayOfMonth <= 9) {
+                    String newDay = "0" + dayOfMonth;
+                    date.setText(newDay + "/" + month + "/" + year);
+                }
+
+                if (month >= 1 && month <= 9) {
+                    String newMonth = "0" + month;
+                    date.setText(dayOfMonth + "/" + newMonth + "/" + year);
+                }
+
+                if (dayOfMonth >= 1 && dayOfMonth <= 9 && month >= 1 && month <= 9) {
+                    String newDay = "0" + dayOfMonth;
+                    String newMonth = "0" + month;
+                    date.setText(newDay + "/" + newMonth + "/" + year);
+                } else {
+                    date.setText(dayOfMonth + "/" + month + "/" + year);
+                }
+            }
+        };
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar currentTime = Calendar.getInstance();
+                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = currentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(getActivity(), R.style.datepicker, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        time.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);
+                mTimePicker.show();
+            }
+        });
+
+    }
     private void showPictureDialog() {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
         pictureDialog.setTitle("Select Action");
@@ -334,6 +416,7 @@ public class PestFragment extends Fragment {
                 params.put("disease_image_data", args[4]);
                 params.put("disease_image_tag", args[5]);
                 params.put("phone", args[6]);
+                params.put("phone-mode", "1");
 
                 Log.d("request", "starting");
 

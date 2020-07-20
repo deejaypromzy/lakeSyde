@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".PestFragment">
 
     <ScrollView
@@ -32,11 +32,6 @@
                 android:orientation="vertical"
                 android:padding="@dimen/fab_margin">
 
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/pest" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -45,7 +40,7 @@
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_horizontal"
                     android:text="@string/pest_identification"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -56,8 +51,6 @@
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:drawablePadding="@dimen/fab_margin"
                         android:hint="Name Of Pest (if known)"
                         android:inputType="textPersonName|textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -65,14 +58,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_weight="5"
                     android:text="Pest Image (If Seen)" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:gravity="bottom">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -91,7 +82,6 @@
                         android:layout_weight="5"
                         android:drawableEnd="@drawable/add_image"
                         android:hint="Take photo"
-                        android:padding="5dp"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -100,21 +90,18 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_hight"
-                    android:layout_margin="5dp"
                     android:layout_marginBottom="@dimen/card_album_radius"
                     android:background="@color/gray_btn_bg_color" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_weight="5"
                     android:text="Picture of Diseases / Abnormal Crop (If Seen)" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:gravity="bottom">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -133,7 +120,6 @@
                         android:layout_weight="5"
                         android:drawableEnd="@drawable/add_image"
                         android:hint="Take photo"
-                        android:padding="5dp"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -146,6 +132,37 @@
                     android:layout_marginBottom="@dimen/card_album_radius"
                     android:background="@color/gray_btn_bg_color" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:ellipsize="start"
+                        android:focusable="false"
+                        android:hint="Date"
+                        android:inputType="date"
+                        android:textColor="#2d3436" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:ellipsize="start"
+                        android:focusable="false"
+                        android:hint="Time"
+                        android:inputType="time"
+                        android:textColor="#2d3436" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!--            <com.google.android.material.textfield.TextInputLayout-->
                 <!--                android:layout_width="match_parent"-->
@@ -166,15 +183,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/fab_margin"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
+                        android:layout_marginEnd="@dimen/fab_margin"
                         android:layout_weight="1"
                         android:background="@drawable/shape_cancel"
                         android:text="Cancel"
@@ -184,8 +199,7 @@
                         android:id="@+id/submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
+                        android:layout_marginStart="@dimen/fab_margin"
                         android:layout_weight="1"
                         android:background="@drawable/shape_login"
                         android:text="Submit"

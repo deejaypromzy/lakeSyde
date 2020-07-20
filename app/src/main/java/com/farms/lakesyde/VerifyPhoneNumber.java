@@ -108,6 +108,8 @@ public class VerifyPhoneNumber extends AppCompatActivity implements View.OnClick
                 HashMap<String, String> params = new HashMap<>();
                 params.put("verify", args[0]);
                 params.put("code", args[1]);
+                params.put("phone-mode", "1");
+
                 // params.put("message", args[2]);
 
                 Log.d("request", "starting");
@@ -185,6 +187,7 @@ public class VerifyPhoneNumber extends AppCompatActivity implements View.OnClick
                 HashMap<String, String> params = new HashMap<>();
                 params.put("resendVerification", args[0]);
                 params.put("phone", args[1]);
+                params.put("phone-mode", "1");
 
                 Log.d("request", "starting");
 

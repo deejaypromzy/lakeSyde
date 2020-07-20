@@ -21,7 +21,7 @@
     <string name="slide_1_title">LAKESYDE FARMS</string>
     <string name="slide_1_desc">A Decade in Agriculture</string>
 
-    <string name="slide_2_title">WE ARE GREEN</string>
+    <string name="slide_2_title">\"WE ARE GREEN\"</string>
     <string name="slide_2_desc">Organic Oriented</string>
 
     <string name="slide_3_title">Great Discounts</string>
@@ -53,5 +53,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="others">Others</string>
+    <string name="others">Others Farm Activity</string>
+    <string name="logout">Logout</string>
 </resources>

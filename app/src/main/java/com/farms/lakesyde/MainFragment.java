@@ -13,6 +13,8 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -57,6 +60,10 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_up);
+        bottomNavigationView.startAnimation(animation);
+        bottomNavigationView.setVisibility(View.VISIBLE);
         permissionStatus = getActivity().getSharedPreferences("permissionStatus", MODE_PRIVATE);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -76,6 +83,7 @@ public class MainFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(MainFragment.this)
                         .navigate(R.id.action_FirstFragment_to_OthersFragment);
+
             }
         });
         view.findViewById(R.id.fertilizer).setOnClickListener(new View.OnClickListener() {

@@ -7,16 +7,16 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dots_height">30dp</dimen>
     <dimen name="dots_margin_bottom">20dp</dimen>
-    <dimen name="img_width_height">120dp</dimen>
-    <dimen name="slide_title">20sp</dimen>
+    <dimen name="img_width_height">150dp</dimen>
+    <dimen name="slide_title">24sp</dimen>
     <dimen name="slide_desc">18dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
 
-    <dimen name="detail_backdrop_height">200dp</dimen>
+    <dimen name="detail_backdrop_height">70dp</dimen>
     <dimen name="backdrop_title">15dp</dimen>
     <dimen name="backdrop_subtitle">18dp</dimen>
     <dimen name="card_margin">5dp</dimen>
-    <dimen name="card_album_radius">15dp</dimen>
+    <dimen name="card_album_radius">10dp</dimen>
     <dimen name="album_cover_height">160dp</dimen>
     <dimen name="album_title_padding">10dp</dimen>
     <dimen name="album_title">15dp</dimen>
@@ -25,5 +25,11 @@
     <dimen name="ic_album_overflow_width">20dp</dimen>
     <dimen name="ic_album_overflow_height">30dp</dimen>
     <dimen name="ic_album_overflow_margin_top">10dp</dimen>
-    <dimen name="view_hight">1dp</dimen>
+    <dimen name="view_hight">2dp</dimen>
+
+    <dimen name="normalPadding">20dp</dimen>
+    <dimen name="headerTextSize">25sp</dimen>
+    <dimen name="headerMoreTextSize">18sp</dimen>
+    <dimen name="frutorial_title">15sp</dimen>
+
 </resources>

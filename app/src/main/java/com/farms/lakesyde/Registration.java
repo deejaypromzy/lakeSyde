@@ -1,5 +1,6 @@
 package com.farms.lakesyde;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,11 +15,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -33,19 +34,39 @@ import java.util.HashMap;
 
 public class Registration extends AppCompatActivity {
     private static final String TAG = "Registration";
-    TextView tvSignup, tvLogin;
+    TextView tvSignup, tvLogin, acc;
+
     TextInputEditText user_name, mphone, phone2, farm_name, location, size, crop, email;
     Button btnSignUp, btnLogin;
-    ProgressBar progress, progress2;
     ConstraintLayout lvparent;
     LinearLayout parentLogin, parentSignup;
     private ConnectionClass connectionClass;
     private SharedPreferences sharedpreferences;
     private PrefManager prefManager;
+    private ProgressDialog progressDialog;
+
+    private void setDarkMode(Window window) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        changeStatusBar(1, window);
+    }
+
+    public void changeStatusBar(int mode, Window window) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.contentBodyColor));
+            //white mode
+            if (mode == 1) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+    }
+
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setDarkMode(getWindow());
         setContentView(R.layout.activity_registration);
 
         // Making notification bar transparent
@@ -69,8 +90,6 @@ public class Registration extends AppCompatActivity {
         tvLogin = findViewById(R.id.tvLogin);
         parentLogin = findViewById(R.id.parentLogin);
         parentSignup = findViewById(R.id.parentSignup);
-        progress = findViewById(R.id.progress);
-        progress2 = findViewById(R.id.progress2);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnLogin = findViewById(R.id.btnLogin);
         lvparent = findViewById(R.id.lvparent);
@@ -82,12 +101,15 @@ public class Registration extends AppCompatActivity {
         size = findViewById(R.id.size);
         crop = findViewById(R.id.crops);
         email = findViewById(R.id.email);
+        acc = findViewById(R.id.acc);
 
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 parentLogin.setVisibility(View.GONE);
                 parentSignup.setVisibility(View.VISIBLE);
+                acc.setVisibility(View.VISIBLE);
+
             }
         });
         tvSignup.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +117,7 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
                 parentSignup.setVisibility(View.GONE);
                 parentLogin.setVisibility(View.VISIBLE);
+                acc.setVisibility(View.GONE);
             }
         });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -308,7 +331,7 @@ public class Registration extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             btnLogin.setVisibility(View.GONE);
-            progress2.setVisibility(View.VISIBLE);
+            progressDialog = ProgressDialog.show(Registration.this, "Login", "Please Wait", false, false);
         }
 
         @Override
@@ -319,7 +342,7 @@ public class Registration extends AppCompatActivity {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("login", args[0]);
                 params.put("phone", args[1]);
-                // params.put("message", args[2]);
+                params.put("phone-mode", "1");
 
                 Log.d("request", "starting");
 
@@ -346,7 +369,7 @@ public class Registration extends AppCompatActivity {
             int success = 0;
             String message = "";
 
-            progress2.setVisibility(View.GONE);
+            progressDialog.dismiss();
             btnLogin.setVisibility(View.VISIBLE);
 
             if (json != null) {
@@ -384,7 +407,7 @@ public class Registration extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             btnSignUp.setVisibility(View.GONE);
-            progress.setVisibility(View.VISIBLE);
+            progressDialog = ProgressDialog.show(Registration.this, "Registration", "Please Wait", false, false);
         }
 
         @Override
@@ -400,6 +423,7 @@ public class Registration extends AppCompatActivity {
                 params.put("location", args[5]);
                 params.put("size_of_farm", args[6]);
                 params.put("crops", args[7]);
+                params.put("phone-mode", "1");
 
                 Log.d("request", "starting");
 
@@ -427,7 +451,7 @@ public class Registration extends AppCompatActivity {
             String message = "";
             String sms = "";
 
-            progress.setVisibility(View.GONE);
+            progressDialog.dismiss();
             btnSignUp.setVisibility(View.VISIBLE);
 
             if (json != null) {
@@ -448,9 +472,14 @@ public class Registration extends AppCompatActivity {
                 Log.d(TAG, "onPostExecute: " + sms);
                 Log.d("Success!", message);
             } else {
-                Toast.makeText(Registration.this, "Oops, Registration failed - try again", Toast.LENGTH_SHORT).show();
-                Log.d("Failure", message);
-                Log.d(TAG, "onPostExecute: " + sms);
+                if (message.equals("Oops, User Already Exist")) {
+                    Toast.makeText(Registration.this, "Oops, User Already Exist", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Registration.this, "Oops, Registration failed - try again", Toast.LENGTH_SHORT).show();
+                    Log.d("Failure", message);
+                    Log.d(TAG, "onPostExecute: " + sms);
+                }
+
 
             }
         }

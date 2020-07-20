@@ -4,9 +4,22 @@
     android:id="@+id/lvparent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:gravity="center"
+    android:background="@android:color/white"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/acc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="cursive"
+        android:padding="@dimen/fab_margin"
+        android:text="Already \nhave an account?"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -21,12 +34,12 @@
             android:id="@+id/parentLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
+            android:gravity="center"
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="150dp"
+                android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:src="@drawable/logo" />
 
@@ -39,7 +52,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/registration"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -50,7 +63,6 @@
                     android:id="@+id/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/user"
                     android:drawableLeft="@drawable/user"
                     android:drawablePadding="@dimen/fab_margin"
@@ -66,7 +78,6 @@
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/phone"
                     android:drawableLeft="@drawable/phone"
                     android:drawablePadding="@dimen/fab_margin"
@@ -83,7 +94,6 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/email"
                     android:drawableLeft="@drawable/email"
                     android:drawablePadding="@dimen/fab_margin"
@@ -100,7 +110,6 @@
                     android:id="@+id/farm_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/tag"
                     android:drawableLeft="@drawable/tag"
                     android:drawablePadding="@dimen/fab_margin"
@@ -117,7 +126,6 @@
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/location"
                     android:drawableLeft="@drawable/location"
                     android:drawablePadding="@dimen/fab_margin"
@@ -134,7 +142,6 @@
                     android:id="@+id/size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/size"
                     android:drawableLeft="@drawable/size"
                     android:drawablePadding="@dimen/fab_margin"
@@ -151,7 +158,6 @@
                     android:id="@+id/crops"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/crop"
                     android:drawableLeft="@drawable/crop"
                     android:drawablePadding="@dimen/fab_margin"
@@ -171,13 +177,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/shape_login"
-                android:drawablePadding="@dimen/fab_margin"
-                android:padding="@dimen/fab_margin"
                 android:text="SIGN UP"
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textColor="#ffffff" />
 
             <TextView
                 android:id="@+id/tvLogin"
@@ -194,7 +197,18 @@
 
     </ScrollView>
 
+    <!--    <View-->
+    <!--        android:id="@+id/v1"-->
+    <!--        android:layout_width="150dp"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:background="@drawable/f2"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -207,24 +221,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="visible"
             android:orientation="vertical">
+
 
             <ImageView
                 android:id="@+id/profile_image"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="15dp"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center_horizontal"
                 android:text="@string/login"
                 android:textColor="@color/colorPrimary"
-                android:textSize="25sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -235,9 +250,9 @@
                     android:id="@+id/phone2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:drawableStart="@drawable/phone"
                     android:drawableLeft="@drawable/phone"
+                    android:drawablePadding="@dimen/fab_margin"
                     android:hint="Phone Number"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -253,13 +268,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/shape_login"
-                android:drawablePadding="@dimen/fab_margin"
                 android:padding="@dimen/fab_margin"
                 android:text="Login"
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textColor="#ffffff" />
 
             <TextView
                 android:id="@+id/tvSignup"
@@ -273,5 +286,6 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

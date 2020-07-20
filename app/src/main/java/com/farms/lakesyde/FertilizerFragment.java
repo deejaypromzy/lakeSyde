@@ -1,30 +1,39 @@
 package com.farms.lakesyde;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class FertilizerFragment extends Fragment {
     private static final String TAG = "FertilizerFragment";
-    TextInputEditText user_name, amt, time;
+    TextInputEditText user_name, amt, time, date;
     Button submit;
     private PrefManager prefManager;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Override
     public View onCreateView(
@@ -38,14 +47,19 @@ public class FertilizerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+        bottomNavigationView.startAnimation(animation);
+        bottomNavigationView.setVisibility(View.GONE);
 
         prefManager = new PrefManager(getActivity());
 
         user_name = view.findViewById(R.id.user_name);
         amt = view.findViewById(R.id.amt);
         time = view.findViewById(R.id.time);
+        date = view.findViewById(R.id.date);
         submit = view.findViewById(R.id.submit);
-
+        createOnClickListeners();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +116,73 @@ public class FertilizerFragment extends Fragment {
 
     }
 
+    /**
+     * Sets on click listeners for widgets in the inflated layout
+     */
+    private void createOnClickListeners() {
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getActivity(),
+                        R.style.datepicker,
+                        dateSetListener,
+                        year, month, day);
+                dialog.show();
+            }
+        });
+
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: date: " + year + "/" + month + "/" + dayOfMonth);
+
+                if (dayOfMonth >= 1 && dayOfMonth <= 9) {
+                    String newDay = "0" + dayOfMonth;
+                    date.setText(newDay + "/" + month + "/" + year);
+                }
+
+                if (month >= 1 && month <= 9) {
+                    String newMonth = "0" + month;
+                    date.setText(dayOfMonth + "/" + newMonth + "/" + year);
+                }
+
+                if (dayOfMonth >= 1 && dayOfMonth <= 9 && month >= 1 && month <= 9) {
+                    String newDay = "0" + dayOfMonth;
+                    String newMonth = "0" + month;
+                    date.setText(newDay + "/" + newMonth + "/" + year);
+                } else {
+                    date.setText(dayOfMonth + "/" + month + "/" + year);
+                }
+            }
+        };
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar currentTime = Calendar.getInstance();
+                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = currentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(getActivity(), R.style.datepicker, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        time.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);
+                mTimePicker.show();
+            }
+        });
+
+    }
+
     private class ActivityAsync extends AsyncTask<String, String, JSONObject> {
         private static final String LOGIN_URL = "http://www.lakesyde.pewgapp.com/index.php";
         private static final String TAG_SUCCESS = "success";
@@ -125,6 +206,7 @@ public class FertilizerFragment extends Fragment {
                 params.put("amount", args[2]);
                 params.put("time", args[3]);
                 params.put("phone", args[4]);
+                params.put("phone-mode", "1");
 
                 Log.d("request", "starting");
 
